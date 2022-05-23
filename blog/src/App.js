@@ -8,6 +8,7 @@ function App() {
   let [good, goodChg] = useState([0,0,0])
   let [modal, modalChg] = useState(false);
   let [title, titleChg] = useState(0);
+  let [msg, msgChg] = useState('');
   return (
     <div className="App">
       <div className="black-nav">
@@ -25,17 +26,37 @@ function App() {
               <h4 onClick={()=>{
                 modal ? modalChg(false) : modalChg(true)
                 titleChg(i)
-              }}>{x} </h4>
-              <span onClick={() => {
-                let copy = [...good];
-                copy[i] += 1;
-                goodChg(copy)
-              }}>💕</span> {good[i]}
+              }}>{x} 
+                <span onClick={(e) => {
+                  e.stopPropagation(); //이벤트 버블링 막기 (좋아요 클릭시 h4도 같이 클릭되어 상세 페이지 열리는 현상을 방지한다.)
+                  let copy = [...good];
+                  copy[i] += 1;
+                  goodChg(copy)
+                }}>💕</span> {good[i]}
+              </h4>
               <p>5월 14일 발행</p>
+              <button onClick={()=>{
+                let copy = [...data];
+                copy = copy.filter((x,index)=>{                 
+                  return index != i ? x : null;
+                })
+                dataChg(copy);
+              }}>글 삭제</button>
             </div> 
             )
         })
       }
+
+      <input onChange={(e)=>{
+        let inputMsg = e.target.value;
+        msgChg(inputMsg);
+      }}></input>
+      <button onClick={()=>{
+        let copy = [msg,...data];
+        dataChg(copy);
+      }}>글 발행</button>
+
+
       {
         modal ? <Modal title={title} dataChg={dataChg} data={data}></Modal> : null
       }
