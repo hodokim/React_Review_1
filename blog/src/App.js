@@ -12,7 +12,7 @@ function App() {
   return (
     <div className="App">
       <div className="black-nav">
-        <h4>생각나는대로..</h4>
+        <h4>오늘 뭐하지?</h4>
       </div>
       <button onClick={()=>{
         let copy = [...data];
